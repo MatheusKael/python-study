@@ -30,9 +30,14 @@ def main():
         for row in reader:
             sequence = row[0]
 
+    items = []
     for name in database:
-        for value in database[name]:
-            print(value)
+        items.append(list(database[name].items()))
+    for i in range(len(items)):
+        print(items[i])
+        for j in range(len(items[i])):
+            print(items[j])
+
     print(sequence)
     # TODO: Find longest match of each STR in DNA sequence
 
