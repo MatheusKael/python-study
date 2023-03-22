@@ -22,7 +22,7 @@ def main():
             database[row['name']] = row
             database[row['name']].pop('name')
 
-    print(database)
+    # print(database)
     # TODO: Read DNA sequence file into a variable
 
     with open(sequence_file) as csv_file:
@@ -30,18 +30,29 @@ def main():
         for row in reader:
             sequence = row[0]
 
-    items = []
-    for name in database:
-        items.append(list(database[name].items()))
-    for i in range(len(items)):
-        print(items[i])
-        for j in range(len(items[i])):
-            print(items[j])
+    name = list(database.keys())[0]
+    genes = database[name].keys()
 
-    print(sequence)
-    # TODO: Find longest match of each STR in DNA sequence
+    # print(items[0][0][1])
 
-    # TODO: Check database for matching profiles
+    # print(sequence)
+    profile = {}
+
+    for gene in genes:
+        longest = longest_match(sequence, gene)
+        if profile.get(gene) is None:
+            profile[gene] = str(longest)
+        elif profile.get(gene) < int(longest):
+            profile[gene] = str(longest)
+
+    if profile in database.values():
+        for name in database:
+            if profile == database[name]:
+                print(name)
+
+            # TODO: Find longest match of each STR in DNA sequence
+
+            # TODO: Check database for matching profiles
 
     return
 
@@ -60,9 +71,11 @@ def longest_match(sequence, subsequence):
         # Initialize count of consecutive runs
         count = 0
 
-        # Check for a subsequence match in a "substring" (a subset of characters) within sequence
+        # Check for a subsequence match in a "substring" (a subset of
+        # characters) within sequence
         # If a match, move substring to next potential match in sequence
-        # Continue moving substring and checking for matches until out of consecutive matches
+        # Continue moving substring and checking for matches until out of
+        # consecutive matches
         while True:
 
             # Adjust substring start and end
@@ -70,6 +83,7 @@ def longest_match(sequence, subsequence):
             end = start + subsequence_length
 
             # If there is a match in the substring
+            # print(subsequence)
             if sequence[start:end] == subsequence:
                 count += 1
 
